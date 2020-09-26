@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import os
 
 
 
@@ -21,7 +22,7 @@ def drawInterface(image, testBool):
 
     cv2.rectangle(image, (0, 0), (width, indicatorHeight), color, -1)
 
-    s_img = cv2.imread("C:/Users/Andrew/Documents/cmuHacks '20/faceOverlayFull.png", -1)
+    s_img = cv2.imread("C:/Users/Daniel/Desktop/CMUHack20/cmu-hacks20/faceOverlayFull.png", -1)
 
     x_offset=y_offset=0
 
@@ -47,6 +48,9 @@ def run():
     
     testBool = False
 
+    #for naming the images in the image folder
+    img_counter = 0
+
     while(True):
         # Capture frame-by-frame
         ret, frame = cap.read()
@@ -65,6 +69,13 @@ def run():
             testBool = not(testBool)
         elif(k%256 == 113):
             break
+        elif k%256 == ord('f'):
+            # SPACE pressed
+            img_name = "opencv_frame_{}.png".format(img_counter)
+            path = "C:/Users/Daniel/Desktop/CMUHack20/cmu-hacks20/images"
+            cv2.imwrite(os.path.join(path, img_name), frame)
+            print("{} written!".format(img_name))
+            img_counter += 1
 
     # When everything done, release the capture
     cap.release()
